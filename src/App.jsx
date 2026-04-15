@@ -293,9 +293,12 @@ const App = () => {
       {/* INTERFACE PRINCIPAL (Oculta na impressão) */}
       {/* ========================================== */}
       <div 
-        className="print:hidden min-h-screen text-slate-100 font-sans pb-20 selection:bg-green-500/30 bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: "linear-gradient(to bottom, rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.98)), url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop')" }}
-      >
+          className="print:hidden min-h-screen w-full text-slate-100 font-sans pb-20 selection:bg-green-500/30 bg-fixed bg-cover bg-center overflow-x-hidden"
+          style={{ 
+            backgroundImage: "linear-gradient(to bottom, rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.98)), url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop')",
+            width: '100vw'
+          }}
+        >
         
         {/* Cabeçalho Premium */}
         <div className="bg-gradient-to-b from-green-900/40 to-transparent pt-12 pb-8 px-6">
