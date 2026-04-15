@@ -377,11 +377,15 @@ const App = () => {
                   </div>
                   <div className="space-y-1">
                     <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Atletas Linha/Time</label>
-                    <div className="flex items-center bg-slate-950/50 border border-slate-800 rounded-xl p-1 shadow-inner">
-                      <button onClick={() => adjustPlayers(-1)} className="p-2 text-slate-500 hover:text-red-400 transition-colors"><MinusIcon /></button>
-                      <input type="number" value={config.playersPerTeam} readOnly className="bg-transparent text-center flex-1 font-black text-lg text-white outline-none" />
-                      <button onClick={() => adjustPlayers(1)} className="p-2 text-slate-500 hover:text-green-400 transition-colors"><PlusIcon /></button>
-                    </div>
+                    <div className="flex items-center bg-slate-950/50 border border-slate-800 rounded-xl p-2 shadow-inner">
+  <button onClick={() => adjustPlayers(-1)} className="p-3 text-slate-500 hover:text-red-400 active:bg-red-500/10 rounded-lg transition-colors">
+    <MinusIcon />
+  </button>
+  <input type="number" value={config.playersPerTeam} readOnly className="bg-transparent text-center flex-1 font-black text-lg text-white outline-none w-full" />
+  <button onClick={() => adjustPlayers(1)} className="p-3 text-slate-500 hover:text-green-400 active:bg-green-500/10 rounded-lg transition-colors">
+    <PlusIcon />
+  </button>
+</div>
                   </div>
                 </div>
               </div>
