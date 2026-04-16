@@ -75,17 +75,30 @@ const App = () => {
   useEffect(() => { localStorage.setItem('pelada_react_goals', JSON.stringify(goals)); }, [goals]);
   useEffect(() => { localStorage.setItem('pelada_react_resenhas', JSON.stringify(resenhas)); }, [resenhas]);
 
-  // --- EFEITO DO CRONÔMETRO ---
- useEffect(() => {
+ // --- EFEITO DO CRONÔMETRO ---
+  useEffect(() => {
     let interval = null;
+    // Pega o tempo limite em minutos (padrão 10) e converte para segundos
+    const limitSeconds = (config.matchTime || 10) * 60;
+
     if (isTimerRunning) {
       interval = setInterval(() => {
-        setTimerSeconds(sec => sec + 1);
+        setTimerSeconds(sec => {
+          if (sec + 1 >= limitSeconds) {
+            playWhistle(); // Toca o apito!
+            setIsTimerRunning(false); // Pausa o relógio sozinho!
+            return sec + 1;
+          }
+          return sec + 1;
+        });
       }, 1000);
     } else {
-      if (timerSeconds > 0) playWhistle();
+      // Apita se pausar manualmente (mas só se não estiver zerado nem no limite)
+      if (timerSeconds > 0 && timerSeconds < limitSeconds) playWhistle();
       clearInterval(interval);
     }
+    return () => clearInterval(interval);
+  }, [isTimerRunning, timerSeconds, config.matchTime]);
     return () => clearInterval(interval);
   }, [isTimerRunning, timerSeconds]);
 
@@ -397,6 +410,17 @@ const App = () => {
                 </div>
               </div>
 
+              {/* Tempo de Partida */}
+        <div className="space-y-1 mb-6">
+          <label className="text-[9px] font-black text-slate-500 tracking-widest">TEMPO DE JOGO (MINUTOS)</label>
+          <input 
+            type="number" 
+            value={config.matchTime || 10} 
+            onChange={(e) => handleConfigChange('matchTime', Number(e.target.value))}
+            className="w-full bg-slate-950/50 border border-slate-800 rounded-xl p-3 text-white outline-none text-center font-black shadow-inner"
+          />
+        </div>
+              
               {/* Card de Convocação */}
               <div className="bg-slate-900/60 backdrop-blur-xl p-6 rounded-[2rem] border border-slate-800 shadow-2xl relative overflow-hidden">
                 <h2 className="text-xl font-black mb-6 flex items-center gap-2 text-white italic">
