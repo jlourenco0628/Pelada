@@ -57,7 +57,13 @@ const App = () => {
   const [selectedScorer, setSelectedScorer] = useState('');
   const [resenhaText, setResenhaText] = useState('');
 
-  // --- EFEITOS PARA PERSISTÊNCIA ---
+  // Esta é a função que define o que é o som do apito
+  const playWhistle = () => {
+    const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+    audio.play().catch(e => console.log("Erro ao tocar áudio:", e));
+  };
+  
+// --- EFEITOS PARA PERSISTÊNCIA ---
   useEffect(() => { localStorage.setItem('pelada_react_config', JSON.stringify(config)); }, [config]);
   useEffect(() => { localStorage.setItem('pelada_react_field', JSON.stringify(fieldPlayers)); }, [fieldPlayers]);
   useEffect(() => { localStorage.setItem('pelada_react_gk', JSON.stringify(goalkeepers)); }, [goalkeepers]);
@@ -70,17 +76,18 @@ const App = () => {
   useEffect(() => { localStorage.setItem('pelada_react_resenhas', JSON.stringify(resenhas)); }, [resenhas]);
 
   // --- EFEITO DO CRONÔMETRO ---
-  useEffect(() => {
-    let interval = null;
-    if (isTimerRunning) {
-      interval = setInterval(() => {
-        setTimerSeconds(sec => sec + 1);
-      }, 1000);
-    } else if (!isTimerRunning && timerSeconds !== 0) {
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [isTimerRunning, timerSeconds]);
+ useEffect(() => {
+    let interval = null;
+    if (isTimerRunning) {
+      interval = setInterval(() => {
+        setTimerSeconds(sec => sec + 1);
+      }, 1000);
+    } else {
+      if (timerSeconds > 0) playWhistle();
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerRunning, timerSeconds]);
 
   // --- HANDLERS ---
   const handleConfigChange = (key, value) => {
