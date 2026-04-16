@@ -410,15 +410,36 @@ const App = () => {
                 </div>
               </div>
 
-             const [config, setConfig] = useState(() => {
-    const saved = localStorage.getItem('pelada_react_config');
-    return saved ? JSON.parse(saved) : { 
-      teamA: 'TIME A', 
-      teamB: 'TIME B', 
-      playersPerTeam: 5,
-      matchTime: 10 // <--- Adicione essa linha aqui se não tiver!
-    };
-  });
+            {/* --- CONFIGURAÇÃO DE TEMPO --- */}
+        <div className="mb-6 space-y-2 px-1">
+          <label className="text-[10px] font-black text-slate-500 tracking-[0.2em] uppercase italic">
+            Tempo de Jogo (Minutos)
+          </label>
+          <div className="flex items-center bg-slate-950/50 border border-slate-800 rounded-xl p-2 shadow-inner">
+            <button 
+              type="button"
+              onClick={() => handleConfigChange('matchTime', Math.max(1, (config.matchTime || 10) - 1))}
+              className="p-3 text-slate-400 hover:text-red-400 transition-colors text-2xl font-black leading-none"
+            >
+              -
+            </button>
+            
+            <input 
+              type="number" 
+              value={config.matchTime || 10} 
+              onChange={(e) => handleConfigChange('matchTime', Number(e.target.value))}
+              className="bg-transparent text-center flex-1 font-black text-xl text-white outline-none w-full"
+            />
+            
+            <button 
+              type="button"
+              onClick={() => handleConfigChange('matchTime', (config.matchTime || 10) + 1)}
+              className="p-3 text-slate-400 hover:text-green-400 transition-colors text-2xl font-black leading-none"
+            >
+              +
+            </button>
+          </div>
+        </div>
               
               {/* Card de Convocação */}
               <div className="bg-slate-900/60 backdrop-blur-xl p-6 rounded-[2rem] border border-slate-800 shadow-2xl relative overflow-hidden">
