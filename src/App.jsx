@@ -76,31 +76,27 @@ const App = () => {
   useEffect(() => { localStorage.setItem('pelada_react_resenhas', JSON.stringify(resenhas)); }, [resenhas]);
 
  // --- EFEITO DO CRONÔMETRO ---
-  useEffect(() => {
+ useEffect(() => {
     let interval = null;
-    // Pega o tempo limite em minutos (padrão 10) e converte para segundos
     const limitSeconds = (config.matchTime || 10) * 60;
 
     if (isTimerRunning) {
       interval = setInterval(() => {
         setTimerSeconds(sec => {
           if (sec + 1 >= limitSeconds) {
-            playWhistle(); // Toca o apito!
-            setIsTimerRunning(false); // Pausa o relógio sozinho!
+            playWhistle();
+            setIsTimerRunning(false);
             return sec + 1;
           }
           return sec + 1;
         });
       }, 1000);
     } else {
-      // Apita se pausar manualmente (mas só se não estiver zerado nem no limite)
       if (timerSeconds > 0 && timerSeconds < limitSeconds) playWhistle();
       clearInterval(interval);
     }
     return () => clearInterval(interval);
   }, [isTimerRunning, timerSeconds, config.matchTime]);
-    return () => clearInterval(interval);
-  }, [isTimerRunning, timerSeconds]);
 
   // --- HANDLERS ---
   const handleConfigChange = (key, value) => {
