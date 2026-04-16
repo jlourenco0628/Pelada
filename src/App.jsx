@@ -410,16 +410,15 @@ const App = () => {
                 </div>
               </div>
 
-              {/* Tempo de Partida */}
-        <div className="space-y-1 mb-6">
-          <label className="text-[9px] font-black text-slate-500 tracking-widest">TEMPO DE JOGO (MINUTOS)</label>
-          <input 
-            type="number" 
-            value={config.matchTime || 10} 
-            onChange={(e) => handleConfigChange('matchTime', Number(e.target.value))}
-            className="w-full bg-slate-950/50 border border-slate-800 rounded-xl p-3 text-white outline-none text-center font-black shadow-inner"
-          />
-        </div>
+             const [config, setConfig] = useState(() => {
+    const saved = localStorage.getItem('pelada_react_config');
+    return saved ? JSON.parse(saved) : { 
+      teamA: 'TIME A', 
+      teamB: 'TIME B', 
+      playersPerTeam: 5,
+      matchTime: 10 // <--- Adicione essa linha aqui se não tiver!
+    };
+  });
               
               {/* Card de Convocação */}
               <div className="bg-slate-900/60 backdrop-blur-xl p-6 rounded-[2rem] border border-slate-800 shadow-2xl relative overflow-hidden">
